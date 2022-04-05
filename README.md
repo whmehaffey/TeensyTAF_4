@@ -32,7 +32,13 @@ PyQtGraph
 numpy
 
 PyQt4:
-https://www.riverbankcomputing.com/software/pyqt/download
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyqt4
+
+
+or PyQt5 (use GUIQt5)
+
+pip -m install pyqt5
+
 
 
 From the original documentation of the orignal CBS (Catch Bird Singing, by David Perkel), 
