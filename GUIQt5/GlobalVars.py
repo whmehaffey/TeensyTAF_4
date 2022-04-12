@@ -182,8 +182,8 @@ def UpDateValues(ui):
     ui.DirFlagCheckBox.setChecked(bool(GlobalVars.DirFlag))
     ui.pretemplateView.clear();
     ui.pretemplateView.plot(GlobalVars.templatepre,(arange(0,GlobalVars.sampleBin*128,GlobalVars.sampleBin)/1000))
-    ui.CatchPercentspinBox.setValue(GlobalVars.CatchTrialPercent)
-    ui.ThresholdUpdateThresholdspinBox.setValue(GlobalVars.UpDateThresholdPercent*100)    
+    ui.CatchPercentspinBox.setValue(int(GlobalVars.CatchTrialPercent))
+    ui.ThresholdUpdateThresholdspinBox.setValue(int(GlobalVars.UpDateThresholdPercent*100))    
     ui.AveragingSpinBox.setValue(GlobalVars.FFAveraging)
     ui.LineInDoubleSpinBox.setValue(float(GlobalVars.Gain))
     ui.DPCountSpinBox.setValue(GlobalVars.DPCount)

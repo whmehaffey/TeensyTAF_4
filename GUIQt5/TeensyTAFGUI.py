@@ -150,8 +150,7 @@ def stopButtonPressed():
     
     
 def updateTemplate():
-    import GlobalVars
-    #from PyQt5.QtGui import QFont
+    import GlobalVars    
     from configparser import SafeConfigParser
     from numpy import arange, array
     import serial
@@ -186,8 +185,7 @@ def updateTemplate():
         GlobalVars.ser.close();
         
 def uploadtemplatepreButtonPressed():
-    import GlobalVars
-   # from PyQt4.QtGui import QFont
+    import GlobalVars   
     from configparser import SafeConfigParser
     from numpy import arange, array
     import serial
@@ -375,8 +373,13 @@ def setSampleRate():
         GlobalVars.ser.write(str.encode('SET SAMPLE_RATE_HZ ' + str(GlobalVars.SamplingRate) + ';'))
     
 def updateCatchPercent():
+    
     import GlobalVars
     GlobalVars.CatchTrialPercent=ui.CatchPercentspinBox.value()
+    
+    if GlobalVars.isRunning: 
+       GlobalVars.ser.write(str.encode('SET CATCHPERCENT ' + str(GlobalVars.CatchTrialPercent) + ';'))
+    
 
 def updateAMPCount():
     import GlobalVars

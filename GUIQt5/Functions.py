@@ -243,6 +243,14 @@ def TriggeredRecordAudio(ui,app):
      BoutLogFileName = GlobalVars.SavePath+'_'+outtime+'Full.TAFLog'
      #GlobalVars.FullExpOutputFileName=open(BoutLogFileName,'a');
      AllMagsFileName= GlobalVars.SavePath+'_'+outtime+'AllMagsFull.TAFLog'
+
+     def updateGUI():
+       QtGui.qApp.processEvents()  
+   
+       
+     timer = pg.QtCore.QTimer()
+     timer.timeout.connect(updateGUI)
+     timer.start(500)
      
      while (GlobalVars.isRunning==1):
            
@@ -259,10 +267,10 @@ def TriggeredRecordAudio(ui,app):
          #error=stream.Pa_GetLastHostErrorInfo()
   
       
-      count=count+1
-      if (count>5):
-          count=0
-          QtGui.qApp.processEvents()      
+##      count=count+1
+##      if (count>5):
+##          count=0
+##          QtGui.qApp.processEvents()      
 
       #get new Audio
       thresh=audioop.tomono(cur_data,2,1,0)  # left channel  
@@ -405,6 +413,9 @@ def save_audio(data,filename):
 
 
      data = b''.join(data) #Python 3 requires casting to bytes
+     if (GlobalVars.DirFlag):
+         filename=filename+'dir'
+         
      wf = wave.open(filename + '.wav', 'wb')
      wf.setnchannels(CHANNELS);
      wf.setsampwidth(2)
