@@ -244,14 +244,7 @@ def TriggeredRecordAudio(ui,app):
      #GlobalVars.FullExpOutputFileName=open(BoutLogFileName,'a');
      AllMagsFileName= GlobalVars.SavePath+'_'+outtime+'AllMagsFull.TAFLog'
 
-     def updateGUI():
-       QtGui.qApp.processEvents()  
-   
-       
-     timer = pg.QtCore.QTimer()
-     timer.timeout.connect(updateGUI)
-     timer.start(500)
-     
+    
      while (GlobalVars.isRunning==1):
            
       
@@ -267,10 +260,10 @@ def TriggeredRecordAudio(ui,app):
          #error=stream.Pa_GetLastHostErrorInfo()
   
       
-##      count=count+1
-##      if (count>5):
-##          count=0
-##          QtGui.qApp.processEvents()      
+      count=count+1
+      if (count>20):
+          count=0
+          QtWidgets.qApp.processEvents()      
 
       #get new Audio
       thresh=audioop.tomono(cur_data,2,1,0)  # left channel  
@@ -282,7 +275,10 @@ def TriggeredRecordAudio(ui,app):
       perm_win.append(cur_data)      
       
       if (started):
-          isUpdated=GetSerialData(ui);
+          try:
+              isUpdated=GetSerialData(ui);
+          except:
+              isUpdated=False;
 
       while (ui.isPausedCheckBox.isChecked()):
                          try: 

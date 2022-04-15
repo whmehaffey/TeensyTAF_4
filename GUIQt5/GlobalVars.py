@@ -76,7 +76,7 @@ def loadConfig(loadfilename):
         GlobalVars.Gain=float(parser.get('main','Gain'))
         GlobalVars.AudioAmp=float(parser.get('main','AudioAmp'));
         GlobalVars.AMPMAX=float(parser.get('main','Amp_Max'));
-        GlobalVars.DPCount=float(parser.get('main','DPMatchDuration'))
+        GlobalVars.DPCount=int(parser.get('main','DPMatchDuration'))
         GlobalVars.AMPCount=float(parser.get('main','AmplitudeMatchDuration'))
         GlobalVars.PreDelayMin=int(parser.get('main','DelayMin'))
         GlobalVars.PreDelayMax=int(parser.get('main','DelayMax'))
@@ -186,7 +186,7 @@ def UpDateValues(ui):
     ui.ThresholdUpdateThresholdspinBox.setValue(int(GlobalVars.UpDateThresholdPercent*100))    
     ui.AveragingSpinBox.setValue(GlobalVars.FFAveraging)
     ui.LineInDoubleSpinBox.setValue(float(GlobalVars.Gain))
-    ui.DPCountSpinBox.setValue(GlobalVars.DPCount)
+    ui.DPCountSpinBox.setValue(int(GlobalVars.DPCount))
     ui.AmpCountSpinBox.setValue(GlobalVars.AMPCount)    
     ui.editDP_ThreshPre.setText(str(GlobalVars.DPTHRESHPRE));
     ui.DPCountSpinBoxPre.setValue(GlobalVars.DPCountPre);
