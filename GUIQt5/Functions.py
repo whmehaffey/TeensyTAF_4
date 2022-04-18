@@ -203,7 +203,7 @@ def TriggeredRecordAudio(ui,app):
      QueCnt=50;
      
     # ui.MagsfromTeensy.clear()
-     MIN_DUR=(GlobalVars.buffertime*2)+0.1;
+     MIN_DUR=(GlobalVars.buffertime)+0.1;
   
      
      
