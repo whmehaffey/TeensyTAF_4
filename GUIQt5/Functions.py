@@ -90,25 +90,16 @@ def GetSerialData(ui): #TAFLogfile,SaveFile):
                                 ui.DPHistGraph.plot(x,y,stepMode=True,fillLevel=None, brush=(0,0,255,150))
                                 ui.DPvsFFGraph.clear()
                                 ui.DPvsFFGraph.plot(GlobalVars.DP,GlobalVars.FF,pen=None, symbol='o');
-                               # ui.RMSvsFFGraph.clear()
+                                ui.RMSvsFFGraph.clear()
                                 ui.RMSvsFFGraph.plot(GlobalVars.RMS,GlobalVars.FF,pen=None, symbol='o');
-                              #  ui.RMSvsFFGraph.plot(GlobalVars.PreMatchVal,GlobalVars.FF[-1],pen=None, symbol='o');
-                               # GlobalVars.PrePostRatio.append(GlobalVars.PreTemplateCounter/GlobalVars.PostTemplateCounter);
-                             #   ui.PrePostRatioPlot.clear();
-                              #  ui.PrePostRatioPlot.plot(GlobalVars.PrePostRatio,pen=None, symbol='o');
-                               
+
                     return True  # We got new info. 
                 elif (line[0:4]=="PRE:"):                    
                     line=line.lstrip("PRE:") #get rid of it
                     lastFFT= np.array(line.split(','), dtype=float)
                     tempd=float(lastFFT[0])
                     PreMag=lastFFT[1:129];
-                  #  GlobalVars.PreTemplateCounter = GlobalVars.PreTemplateCounter +1;
-                    
-                  #  if ((len(GlobalVars.FF)>5)):
-                    #    GlobalVars.PrePostRatio.append(GlobalVars.PreTemplateCounter/GlobalVars.PostTemplateCounter);
-                     #   ui.PrePostRatioPlot.plot(GlobalVars.PrePostRatio,pen=None, symbol='o');
-                    
+
                     ui.pretemplateView.clear()
                     ui.pretemplateView.plot(GlobalVars.templatepre,(arange(0,GlobalVars.sampleBin*128,GlobalVars.sampleBin))/1000,pen=pg.mkPen('r', width=1))    
                     ui.pretemplateView.plot(PreMag,(arange(0,GlobalVars.sampleBin*128,GlobalVars.sampleBin))/1000)

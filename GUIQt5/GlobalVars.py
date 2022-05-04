@@ -77,7 +77,7 @@ def loadConfig(loadfilename):
         GlobalVars.AudioAmp=float(parser.get('main','AudioAmp'));
         GlobalVars.AMPMAX=float(parser.get('main','Amp_Max'));
         GlobalVars.DPCount=int(parser.get('main','DPMatchDuration'))
-        GlobalVars.AMPCount=float(parser.get('main','AmplitudeMatchDuration'))
+        GlobalVars.AMPCount=int(parser.get('main','AmplitudeMatchDuration'))
         GlobalVars.PreDelayMin=int(parser.get('main','DelayMin'))
         GlobalVars.PreDelayMax=int(parser.get('main','DelayMax'))
         GlobalVars.DPCountPre=int(parser.get('main','PRE_DUR_MATCH_TEMPLATE'));
@@ -176,7 +176,7 @@ def UpDateValues(ui):
     ui.editMINAMP.setText(str(GlobalVars.AMP))
     ui.editMAXAMP.setText(str(GlobalVars.AMPMAX))
     ui.editAUDIOAMPTHRESHOLD.setText(str(GlobalVars.AudioAmp))
-    ui.SaveFilePathLabel.setText(GlobalVars.SavePath)
+    ui.SaveFilePathLabel.setText(GlobalVars.SavePath[0])
     ui.WN_OncheckBox.setChecked(GlobalVars.WN_ON)
     ui.upDateThresholdCheckBox.setChecked(bool(GlobalVars.upDateThreshold))
     ui.DirFlagCheckBox.setChecked(bool(GlobalVars.DirFlag))
