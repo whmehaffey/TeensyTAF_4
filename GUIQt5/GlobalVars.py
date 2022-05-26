@@ -66,7 +66,7 @@ def loadConfig(loadfilename):
     GlobalVars.HitDIR=int(parser.get('main','GlobalVars.HitDIR'))
     GlobalVars.DirFlag=bool(parser.getboolean('main','GlobalVars.DirFlag'))    
     GlobalVars.upDateThreshold=bool(parser.getboolean('main','GlobalVars.upDateThreshold'))
-    GlobalVars.UpDateThresholdPercent=float(parser.get('main','UpDateThresholdPercent'))    
+    GlobalVars.UpDateThresholdPercent=int(parser.get('main','UpDateThresholdPercent'))
     GlobalVars.CatchTrialPercent=int(parser.get('main','CatchTrialPercent'))
 
 

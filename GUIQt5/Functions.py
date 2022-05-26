@@ -262,7 +262,7 @@ def TriggeredRecordAudio(ui,app):
       count=count+1
       if (count>5):
           count=0
-          QtGui.qApp.processEvents()      
+          QtGui.QGuiApplication.processEvents()
 
       #get new Audio
       thresh=audioop.tomono(cur_data,2,1,0)  # left channel  
