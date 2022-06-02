@@ -249,7 +249,7 @@ def SaveFileButtonPressed():
 
     GlobalVars.SavePath = QtWidgets.QFileDialog.getSaveFileName(ui,'Save File', GlobalVars.DirPath, '')
     GlobalVars.SavePath = GlobalVars.SavePath[0]  # get str from tuple
-    GlobalVars.SavePath = GlobalVars.SavePath[1:-1]  # remove quotation marks from str
+    #GlobalVars.SavePath = GlobalVars.SavePath[1:-1]  # remove quotation marks from str
     GlobalVars.DirPath = QtCore.QFileInfo(GlobalVars.SavePath).path();
     ui.SaveFilePathLabel.setText(GlobalVars.SavePath)
     
@@ -491,7 +491,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         GlobalVars.WN_ON=0
         GlobalVars.upDateThreshold=False
         GlobalVars.DirFlag=0
-        GlobalVars.UpDateThresholdPercent=75
+        GlobalVars.UpDateThresholdPercent=0.75
         GlobalVars.CatchTrialPercent=10
         GlobalVars.meanFF=0;
         GlobalVars.Gain=55;
@@ -531,7 +531,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.editMAXFF.editingFinished.connect(editFFMAX);
         self.editFREQ_THRESH.editingFinished.connect(editFFreqThresh);
         self.editDP_Thresh.editingFinished.connect(editDPTHRESH);
-       # self.editDP_ThreshPre.editingFinished.connect(editDPTHRESHPre);
         self.FileAndPath_PushButton.clicked.connect(SaveFileButtonPressed)
         self.WN_OncheckBox.clicked.connect(WN_OnPressed)
         self.HitAboveButton.clicked.connect(HitAboveButtonPressed)

@@ -66,7 +66,7 @@ def loadConfig(loadfilename):
     GlobalVars.HitDIR=int(parser.get('main','GlobalVars.HitDIR'))
     GlobalVars.DirFlag=bool(parser.getboolean('main','GlobalVars.DirFlag'))    
     GlobalVars.upDateThreshold=bool(parser.getboolean('main','GlobalVars.upDateThreshold'))
-    GlobalVars.UpDateThresholdPercent=int(parser.get('main','UpDateThresholdPercent'))
+    GlobalVars.UpDateThresholdPercent=float(parser.get('main','UpDateThresholdPercent'))
     GlobalVars.CatchTrialPercent=int(parser.get('main','CatchTrialPercent'))
 
 
@@ -76,8 +76,8 @@ def loadConfig(loadfilename):
         GlobalVars.Gain=float(parser.get('main','Gain'))
         GlobalVars.AudioAmp=float(parser.get('main','AudioAmp'));
         GlobalVars.AMPMAX=float(parser.get('main','Amp_Max'));
-        GlobalVars.DPCount=float(parser.get('main','DPMatchDuration'))
-        GlobalVars.AMPCount=float(parser.get('main','AmplitudeMatchDuration'))
+        GlobalVars.DPCount=int(parser.get('main','DPMatchDuration'))
+        GlobalVars.AMPCount=int(parser.get('main','AmplitudeMatchDuration'))
         GlobalVars.PreDelayMin=int(parser.get('main','DelayMin'))
         GlobalVars.PreDelayMax=int(parser.get('main','DelayMax'))
         GlobalVars.DPCountPre=int(parser.get('main','PRE_DUR_MATCH_TEMPLATE'));
@@ -183,7 +183,7 @@ def UpDateValues(ui):
     ui.pretemplateView.clear();
     ui.pretemplateView.plot(GlobalVars.templatepre,(arange(0,GlobalVars.sampleBin*128,GlobalVars.sampleBin)/1000))
     ui.CatchPercentspinBox.setValue(GlobalVars.CatchTrialPercent)
-    ui.ThresholdUpdateThresholdspinBox.setValue(GlobalVars.UpDateThresholdPercent*100)    
+    ui.ThresholdUpdateThresholdspinBox.setValue(int(GlobalVars.UpDateThresholdPercent*100))
     ui.AveragingSpinBox.setValue(GlobalVars.FFAveraging)
     ui.LineInDoubleSpinBox.setValue(float(GlobalVars.Gain))
     ui.DPCountSpinBox.setValue(GlobalVars.DPCount)
