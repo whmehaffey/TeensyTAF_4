@@ -29,7 +29,7 @@ def GetSerialData(ui): #TAFLogfile,SaveFile):
     import pyqtgraph as pg
     import pdb
 
-    while (GlobalVars.ser.in_waiting>0):
+    while GlobalVars.ser.in_waiting > 0:
                 
             line=GlobalVars.ser.readline(GlobalVars.ser.inWaiting()).decode('ascii');
             #print(line);
@@ -262,7 +262,7 @@ def TriggeredRecordAudio(ui,app):
       count=count+1
       if (count>5):
           count=0
-          QtGui.qApp.processEvents()      
+          QtGui.QGuiApplication.processEvents()
 
       #get new Audio
       thresh=audioop.tomono(cur_data,2,1,0)  # left channel  
@@ -280,7 +280,7 @@ def TriggeredRecordAudio(ui,app):
                          try: 
                              cur_data = stream.read(CHUNK) #keep reading but do nothing with the data            
                              GlobalVars.ser.flush()
-                             QtGui.qApp.processEvents()
+                             QtGui.QGuiApplication.processEvents()
                          except:
                              print('Stopped while paused');
                                  
