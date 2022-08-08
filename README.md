@@ -29,6 +29,7 @@ pyaudio (use https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio	with ALSA suppo
 PyQtGraph
 numpy
 
+
 PyQt4:
 https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyqt4
 

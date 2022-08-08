@@ -255,6 +255,6 @@ def SendAllToTeensy():
     print('SET PREDPTHRESH ' + str(GlobalVars.DPTHRESHPRE) + ';')
     print('SET MAXDELAY ' + str(GlobalVars.PreDelayMax) + ';')
     print('SET MINDELAY ' + str(GlobalVars.PreDelayMin) + ';')  
-    print('SET FREQDIR ' + str(GlobalVars.HitDIR) + ';');
+    
 
 
