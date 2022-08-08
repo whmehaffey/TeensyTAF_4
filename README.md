@@ -1,4 +1,4 @@
-# PyCBS
+# TeensyTAF 4
 Teensy v4 (pjrc.com)
 https://www.pjrc.com/store/teensy40.html
 and Teensy 4 Audio Shield
@@ -29,12 +29,7 @@ pyaudio (use https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio	with ALSA suppo
 PyQtGraph
 numpy
 
-
-PyQt4:
-https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyqt4
-
-
-or PyQt5 (use GUIQt5)
+PyQt5 (use GUIQt5)
 
 pip -m install pyqt5
 
