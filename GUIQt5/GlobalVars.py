@@ -66,7 +66,7 @@ def loadConfig(loadfilename):
     GlobalVars.HitDIR=int(parser.get('main','GlobalVars.HitDIR'))
     GlobalVars.DirFlag=bool(parser.getboolean('main','GlobalVars.DirFlag'))    
     GlobalVars.upDateThreshold=bool(parser.getboolean('main','GlobalVars.upDateThreshold'))
-    GlobalVars.UpDateThresholdPercent=float(parser.get('main','UpDateThresholdPercent'))    
+    GlobalVars.UpDateThresholdPercent=int(parser.get('main','UpDateThresholdPercent'))
     GlobalVars.CatchTrialPercent=int(parser.get('main','CatchTrialPercent'))
 
 
@@ -184,6 +184,8 @@ def UpDateValues(ui):
     ui.pretemplateView.plot(GlobalVars.templatepre,(arange(0,GlobalVars.sampleBin*128,GlobalVars.sampleBin)/1000))
     ui.CatchPercentspinBox.setValue(int(GlobalVars.CatchTrialPercent))
     ui.ThresholdUpdateThresholdspinBox.setValue(int(GlobalVars.UpDateThresholdPercent*100))    
+    ui.CatchPercentspinBox.setValue(GlobalVars.CatchTrialPercent)
+    ui.ThresholdUpdateThresholdspinBox.setValue(int(GlobalVars.UpDateThresholdPercent*100))
     ui.AveragingSpinBox.setValue(GlobalVars.FFAveraging)
     ui.LineInDoubleSpinBox.setValue(float(GlobalVars.Gain))
     ui.DPCountSpinBox.setValue(int(GlobalVars.DPCount))

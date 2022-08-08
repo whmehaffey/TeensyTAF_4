@@ -12,7 +12,7 @@
   </property>
   <property name="font">
    <font>
-    <pointsize>6</pointsize>
+    <pointsize>8</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -968,7 +968,7 @@
      <number>1</number>
     </property>
     <property name="maximum">
-     <number>25</number>
+     <number>30</number>
     </property>
    </widget>
    <widget class="QCheckBox" name="PreTemplatecheckBox">

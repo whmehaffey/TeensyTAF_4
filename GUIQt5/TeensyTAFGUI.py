@@ -1,4 +1,4 @@
-	
+
 import sys
 from PyQt5.QtWidgets import QApplication,QDialog,QSizeGrip,QMessageBox
 from PyQt5 import QtCore, QtGui, uic, QtWidgets
@@ -27,13 +27,13 @@ def GetTeensyPorts():
     for p in TeensyPort:                              
                temp = p[0]
                #print(temp)
-               ui.Teensy_Com_ComboBox.insertItem(0,str(temp))          
+               ui.Teensy_Com_ComboBox.insertItem(0,str(temp))
 
 
     if (len(temp)>0):
         GlobalVars.CurrentPort=(temp)
     else:
-        print("No Teensy Serial Device")   
+        print("No Teensy Serial Device")
    
     inputdevices = 0
     
@@ -43,14 +43,14 @@ def GetTeensyPorts():
     
     
     ui.Teensy_USB_ComboBox.disconnect();
-    ui.Teensy_USB_ComboBox.clear();      
+    ui.Teensy_USB_ComboBox.clear();
     #for each audio device, determine if is an input or an output and add it to the appropriate list and dictionary
     for i in range (0,DeviceList):
         #print(pya.get_device_info_by_host_api_device_index(0,i).get('maxInputChannels'))
         if pya.get_device_info_by_host_api_device_index(0,i).get('maxInputChannels')>1:
              print(pya.get_device_info_by_host_api_device_index(0,i).get('name'))
             #if ((pya.get_device_info_by_host_api_device_index(0,i).get('name').find("Te"))!=-1):
-             ui.Teensy_USB_ComboBox.insertItem(20,str(pya.get_device_info_by_host_api_device_index(0,i).get('name')))    
+             ui.Teensy_USB_ComboBox.insertItem(20,str(pya.get_device_info_by_host_api_device_index(0,i).get('name')))
              inputdevices+=1
  
 
@@ -75,7 +75,7 @@ def SetAudioIn():
 def startButtonPressed():
     import GlobalVars
     import Functions
-    import serial        
+    import serial
     #import numpy as np
     from numpy import histogram, array, arange
     import sys
@@ -100,10 +100,10 @@ def startButtonPressed():
 
     try:
         GlobalVars.ser=serial.Serial(str(GlobalVars.CurrentPort),9600)
-    except:            
+    except:
         messageBox=QMessageBox()
         messageBox.setWindowTitle("Serial Error")
-        messageBox.setText("Serial Port Already Open?")   
+        messageBox.setText("Serial Port Already Open?")
         messageBox.setFixedSize(500,200);
         messageBox.show()
         setAllButtons(ui,True);
@@ -111,7 +111,7 @@ def startButtonPressed():
         ui.startButton.setEnabled(True);
     
     GlobalVars.ser.set_buffer_size(rx_size = 50000, tx_size = 50000)
-     
+
     date=time.localtime();
 
     RemoveAppendix=str(GlobalVars.SavePath);
@@ -120,7 +120,7 @@ def startButtonPressed():
 
     #Set up output files for the full run (Config, and full experiment Log- file by file version are implemented in TriggeredRecordAudio
     configfilename=BaseFileName+'.TAFcfg'
-    GlobalVars.saveConfig(configfilename)                   #Save Config,   
+    GlobalVars.saveConfig(configfilename)                   #Save Config,
     setAllButtons(ui,False);
     ui.stopButton.setEnabled(True);
     GlobalVars.ser.flush()        
@@ -161,13 +161,13 @@ def updateTemplate():
     loadfilename=loadfilename[0].replace('/','\\') #.replace('/','\\')):
 
     parser=SafeConfigParser()
-    if not parser.read(str(loadfilename)): 
+    if not parser.read(str(loadfilename)):
         raise(IOError, 'cannot load')
     
     newTemplate=parser.get('template','GlobalVars.template');
     print(newTemplate)
     newTemplate=newTemplate.replace('[','')
-    newTemplate=newTemplate.replace(']','')    
+    newTemplate=newTemplate.replace(']','')
     
     GlobalVars.template= array(newTemplate.split(','), dtype=float)
 
@@ -215,7 +215,7 @@ def uploadtemplatepreButtonPressed():
         GlobalVars.ser=serial.Serial(str(GlobalVars.CurrentPort),115200)
         GlobalVars.ser.set_buffer_size(rx_size = 50000, tx_size = 50000)
         GlobalVars.ser.flush()    
-        GlobalVars.ser.write(str.encode('SET PRETEMPLATE ' + newTemplate +';'))                
+        GlobalVars.ser.write(str.encode('SET PRETEMPLATE ' + newTemplate +';'))
         GlobalVars.ser.close();
         
 
@@ -246,8 +246,10 @@ def SaveFileButtonPressed():
     import GlobalVars
 
     GlobalVars.SavePath = QtWidgets.QFileDialog.getSaveFileName(ui,'Save File', GlobalVars.DirPath, '')
-    GlobalVars.DirPath = QtCore.QFileInfo(GlobalVars.SavePath[0]).path();
-    ui.SaveFilePathLabel.setText(GlobalVars.SavePath[0])
+    GlobalVars.SavePath = GlobalVars.SavePath[0]  # get str from tuple
+    #GlobalVars.SavePath = GlobalVars.SavePath[1:-1]  # remove quotation marks from str
+    GlobalVars.DirPath = QtCore.QFileInfo(GlobalVars.SavePath).path();
+    ui.SaveFilePathLabel.setText(GlobalVars.SavePath)
     
 
 def editAMP():
@@ -260,35 +262,35 @@ def editAMP():
 def editAMPMax():
     import GlobalVars
 
-    GlobalVars.AMPMAX=float(ui.editMAXAMP.text());    
-    if GlobalVars.isRunning:            
-        GlobalVars.ser.write(str.encode('SET AMP_MAX ' + str(GlobalVars.AMPMAX) + ';'))    
-    
+    GlobalVars.AMPMAX=float(ui.editMAXAMP.text());
+    if GlobalVars.isRunning:
+        GlobalVars.ser.write(str.encode('SET AMP_MAX ' + str(GlobalVars.AMPMAX) + ';'))
+
 def editDPTHRESH():
     import GlobalVars
 
-    GlobalVars.DPTHRESH=float(ui.editDP_Thresh.text());    
+    GlobalVars.DPTHRESH=float(ui.editDP_Thresh.text());
     if GlobalVars.isRunning:            
         GlobalVars.ser.write(str.encode('SET DPTHRESH ' + str(GlobalVars.DPTHRESH) + ';'))
         
 def editDPTHRESHPrePressed():
      import GlobalVars
 
-     GlobalVars.DPTHRESHPRE=float(ui.editDP_ThreshPre.text());    
+     GlobalVars.DPTHRESHPRE=float(ui.editDP_ThreshPre.text());
      if GlobalVars.isRunning:            
         GlobalVars.ser.write(str.encode('SET PREDPTHRESH ' + str(GlobalVars.DPTHRESHPRE) + ';'))
         
 def editFFMAX():
     import GlobalVars
 
-    GlobalVars.MaxFF=float(ui.editMAXFF.text());        
-    if GlobalVars.isRunning:            
+    GlobalVars.MaxFF=float(ui.editMAXFF.text());
+    if GlobalVars.isRunning:
         GlobalVars.ser.write(str.encode('SET FF_MAX ' + str(GlobalVars.MaxFF) + ';'))
 
 def editFFMIN():
     import GlobalVars
 
-    GlobalVars.MinFF=float(ui.editMINFF.text());    
+    GlobalVars.MinFF=float(ui.editMINFF.text());
     if GlobalVars.isRunning:        
         GlobalVars.ser.write(str.encode('SET FF_MIN ' + str(GlobalVars.MinFF) + ';'))
                                  
@@ -301,7 +303,7 @@ def editFFreqThresh():
     ui.FFMonitorPlotTrials.addLine(x=None, y=GlobalVars.FreqTHRESH,pen=pg.mkPen('r', width=1))
     ui.FFMonitorPlot.addLine(x=GlobalVars.FreqTHRESH, y=None,pen=pg.mkPen('r', width=1))
     
-    if GlobalVars.isRunning:            
+    if GlobalVars.isRunning:
         GlobalVars.ser.write(str.encode('SET FREQTHRESH ' + str(GlobalVars.FreqTHRESH) + ';'))
 
 def WN_OnPressed():
@@ -337,21 +339,21 @@ def updateDirFlag():
 def SetLineInGain():
     import GlobalVars
     GlobalVars.Gain=ui.LineInDoubleSpinBox.value()
-    if GlobalVars.isRunning: 
+    if GlobalVars.isRunning:
         GlobalVars.ser.write(str.encode('SET LINE_IN_LEVEL ' + str(GlobalVars.Gain) + ';'))
 
 def HitAboveButtonPressed():
     import GlobalVars    
     
     GlobalVars.HitDIR=1
-    if GlobalVars.isRunning:    
+    if GlobalVars.isRunning:
         GlobalVars.ser.write(str.encode('SET FREQDIR ' + str(int(GlobalVars.HitDIR)) + ';'))
 
 def HitBelowButtonPressed():
     import GlobalVars
     
     GlobalVars.HitDIR=0
-    if GlobalVars.isRunning: 
+    if GlobalVars.isRunning:
         GlobalVars.ser.write(str.encode('SET FREQDIR ' + str(int(GlobalVars.HitDIR)) + ';'))
 
 def updateThreshholdPercent():
@@ -365,11 +367,11 @@ def setAveraging():
         GlobalVars.ser.write(str.encode('SET AVERAGING ' + str(GlobalVars.FFAveraging) + ';'))
 
 def setSampleRate():
-    import GlobalVars    # Off when running.... 
+    import GlobalVars    # Off when running....
     GlobalVars.SamplingRate= int(ui.SampleRateComboBox.currentText()) # so always updated
     GlobalVars.sampleBin=(GlobalVars.SamplingRate/2)/(GlobalVars.FFT/2);
     print(GlobalVars.sampleBin)
-    if GlobalVars.isRunning: 
+    if GlobalVars.isRunning:
         GlobalVars.ser.write(str.encode('SET SAMPLE_RATE_HZ ' + str(GlobalVars.SamplingRate) + ';'))
     
 def updateCatchPercent():
@@ -392,15 +394,15 @@ def updateDPCount():
     import GlobalVars
     GlobalVars.DPCount=ui.DPCountSpinBox.value()
     
-    if GlobalVars.isRunning: 
+    if GlobalVars.isRunning:
         GlobalVars.ser.write(str.encode('SET DUR_MATCH_TEMPLATE ' + str(GlobalVars.DPCount) + ';'))
 
 def updateDPCountSpinBoxPre():
     import GlobalVars
     GlobalVars.DPCountPre=ui.DPCountSpinBoxPre.value()
     
-    if GlobalVars.isRunning: 
-        GlobalVars.ser.write(str.encode('SET PRE_DUR_MATCH_TEMPLATE ' + str(GlobalVars.DPCountPre) + ';'))    
+    if GlobalVars.isRunning:
+        GlobalVars.ser.write(str.encode('SET PRE_DUR_MATCH_TEMPLATE ' + str(GlobalVars.DPCountPre) + ';'))
 
 def TrackFFButtonPressed():
     import GlobalVars
@@ -415,18 +417,18 @@ def editPreDelayMaxPressed():
     GlobalVars.PreDelayMax=int(ui.editPreDelayMax.text())
       
     if GlobalVars.isRunning: 
-       GlobalVars.ser.write(str.encode('SET MAXDELAYMAX ' + str(GlobalVars.PreDelayMax) + ';'))  
+       GlobalVars.ser.write(str.encode('SET MAXDELAYMAX ' + str(GlobalVars.PreDelayMax) + ';'))
     
 def editPreDelayMinPressed():
     import GlobalVars
     GlobalVars.PreDelayMin=int(ui.editPreDelayMin.text())
     
-    if GlobalVars.isRunning: 
+    if GlobalVars.isRunning:
        GlobalVars.ser.write(str.encode('SET MINDELAY ' + str(GlobalVars.PreDelayMin) + ';'))
        
 
 def updatePausing():
-    import GlobalVars   
+    import GlobalVars
     import os
 
 
@@ -439,16 +441,16 @@ def updatePausing():
 
 def shiftTemplateDownButtonPressed():
     from Functions import shiftTemplateDown
-    shiftTemplateDown(ui)    
+    shiftTemplateDown(ui)
     
-def shiftTemplateUpButtonPressed():     
-    from Functions import shiftTemplateUp    
+def shiftTemplateUpButtonPressed():
+    from Functions import shiftTemplateUp
     shiftTemplateUp(ui)        
 
 def PreTemplatecheckBoxChecked():     
-     if GlobalVars.isRunning: 
+     if GlobalVars.isRunning:
         GlobalVars.ser.write(str.encode('SET PRETEMPLATE ' + str(ui.PreTemplatecheckBox.isChecked()) + ';'))
-     GlobalVars.PreTemplateFlag=ui.PreTemplatecheckBox.isChecked();   
+     GlobalVars.PreTemplateFlag=ui.PreTemplatecheckBox.isChecked();
 
 def editUSBThreshold():
      import GlobalVars;
@@ -469,7 +471,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         import pyqtgraph as pg
        
         
-        GlobalVars.isRunning=False;        
+        GlobalVars.isRunning=False;
         
         GlobalVars.buffertime=3        
         GlobalVars.DirPath=os.path.normcase('.\\')
@@ -478,12 +480,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #Initialize Teensy Variables
         GlobalVars.FFT=256; #int(self.NFFTcomboBox.currentText())
         GlobalVars.SamplingRate=int(self.SampleRateComboBox.currentText())
-        GlobalVars.inputdeviceindex=0;   
+        GlobalVars.inputdeviceindex=0;
         GlobalVars.FFAveraging=3;
         GlobalVars.FreqTHRESH=0
         GlobalVars.MinFF=0
         GlobalVars.MaxFF=0
-        GlobalVars.DPTHRESH=5 
+        GlobalVars.DPTHRESH=5
         GlobalVars.HitDIR=0
         GlobalVars.AMP=1200
         GlobalVars.AMPMAX=6000;
@@ -492,7 +494,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         GlobalVars.WN_ON=0
         GlobalVars.upDateThreshold=False
         GlobalVars.DirFlag=0
-        GlobalVars.UpDateThresholdPercent=75
+        GlobalVars.UpDateThresholdPercent=0.75
         GlobalVars.CatchTrialPercent=10
         GlobalVars.meanFF=0;
         GlobalVars.Gain=55;
@@ -514,12 +516,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
         self.pretemplateView.plot(GlobalVars.templatepre,arange(0,GlobalVars.sampleBin*(GlobalVars.FFT/2),GlobalVars.sampleBin)/1000,pen=pg.mkPen('r', width=1))
         self.MagsfromTeensy.plot(GlobalVars.template,(arange(0,GlobalVars.sampleBin*128,GlobalVars.sampleBin))/1000,pen=pg.mkPen('r', width=1))
-        
+
         #Turn of some buttons at initialization
         self.NFFTcomboBox.setEnabled(False);
         self.SampleRateComboBox.setEnabled(True);
         self.stopButton.setEnabled(False)
-        
+
         #Connect all the buttons to their functions;
         self.serialScan.clicked.connect(GetTeensyPorts);
         self.startButton.clicked.connect(startButtonPressed);    
@@ -532,7 +534,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.editMAXFF.editingFinished.connect(editFFMAX);
         self.editFREQ_THRESH.editingFinished.connect(editFFreqThresh);
         self.editDP_Thresh.editingFinished.connect(editDPTHRESH);
-       # self.editDP_ThreshPre.editingFinished.connect(editDPTHRESHPre);
         self.FileAndPath_PushButton.clicked.connect(SaveFileButtonPressed)
         self.WN_OncheckBox.clicked.connect(WN_OnPressed)
         self.HitAboveButton.clicked.connect(HitAboveButtonPressed)
@@ -543,6 +544,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.upDateThresholdCheckBox.clicked.connect(upDateThresholdButtonPressed)
         self.ThresholdUpdateThresholdspinBox.valueChanged.connect(updateThreshholdPercent)
         self.DPCountSpinBox.valueChanged.connect(updateDPCount)
+        self.DPCountSpinBoxPre.valueChanged.connect(updateDPCountSpinBoxPre)
         self.AmpCountSpinBox.valueChanged.connect(updateAMPCount)
         self.CatchPercentspinBox.valueChanged.connect(updateCatchPercent)
         self.ThresholdUpdateThresholdspinBox.setEnabled(False)
