@@ -252,7 +252,7 @@ def TriggeredRecordAudio(ui,app):
   
       
       count=count+1
-      if (count>20):
+      if (count>5):
           count=0
           QtWidgets.qApp.processEvents()      
           QtGui.QGuiApplication.processEvents()
