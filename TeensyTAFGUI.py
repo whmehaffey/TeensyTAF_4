@@ -16,7 +16,8 @@ def GetTeensyPorts():
     import GlobalVars    
     import sys, serial
     import pyaudio as pa
-    from serial.tools import list_ports   
+    from serial.tools import list_ports
+    import pdb
 
     TeensyPort = (list_ports.grep("16c0"))
 
@@ -478,7 +479,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         GlobalVars.filename='birdname'
 
         #Initialize Teensy Variables
-                
         GlobalVars.FFT=256; #int(self.NFFTcomboBox.currentText())
         GlobalVars.SamplingRate=int(self.SampleRateComboBox.currentText())
         GlobalVars.inputdeviceindex=0;
@@ -513,6 +513,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         GlobalVars.sampleBin=(GlobalVars.SamplingRate/2)/(GlobalVars.FFT/2);
         GlobalVars.template=(zeros(GlobalVars.FFT//2));        
         GlobalVars.templatepre=(zeros(GlobalVars.FFT//2)); 
+
+        
+        self.pretemplateView.plot(GlobalVars.templatepre,arange(0,GlobalVars.sampleBin*(GlobalVars.FFT/2),GlobalVars.sampleBin)/1000,pen=pg.mkPen('r', width=1))
+        self.MagsfromTeensy.plot(GlobalVars.template,(arange(0,GlobalVars.sampleBin*128,GlobalVars.sampleBin))/1000,pen=pg.mkPen('r', width=1))
 
         #Turn of some buttons at initialization
         self.NFFTcomboBox.setEnabled(False);

@@ -264,9 +264,18 @@ void export_normalized_mags() {
   scalefactor=1/scalefactor; // for vector multiplation below 
   arm_scale_f32(floatmags, scalefactor, scaledmags, TEMPLT_SIZE); // and normalize.
   
-  scaledmags[0]=0;
-  scaledmags[1]=0;
-  scaledmags[2]=0;
+  if (FFT_SIZE==256){ // Get rid of Low F for normalization later
+      for (int i=0; i <3; i++) {
+        scaledmags[i]=0; 
+      }
+        
+    }
+  if (FFT_SIZE==1024) { // Get rid of Low F for normalization later
+      for (int i=0; i <10; i++) {
+        scaledmags[i]=0; 
+      }
+    }  
+
   
   arm_dot_prod_f32(scaledmags, templt, TEMPLT_SIZE, &dotprod); // and calculate the dot product
   Serial.print(scaledmags[0]);       

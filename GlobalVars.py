@@ -41,7 +41,6 @@ global DPCountPre;
 global AllMagsFile;
 global PreMatchVal;
 
-import pdb;
 
 def loadConfig(loadfilename):
     from configparser import ConfigParser
@@ -71,9 +70,7 @@ def loadConfig(loadfilename):
     GlobalVars.CatchTrialPercent=int(parser.get('main','CatchTrialPercent'))
 
 
-    try: #These weren't always there, so load if possible.
-        GlobalVars.FFT=int(parser.set('main','FFT_SIZE'));
-        #main','FFT_SIZE',str(GlobalVars.FFT));
+    try: #These weren't always there, so load if possible.  
         GlobalVars.FFAveraging=int(parser.get('main','FFAveraging'))
         GlobalVars.SamplingRate=int(parser.get('main','SamplingRate'))
         GlobalVars.Gain=float(parser.get('main','Gain'))
@@ -157,7 +154,6 @@ def saveConfig(savefilename):
     parser.set('main','Amp_Max',str(GlobalVars.AMPMAX))
     parser.set('main','DPMatchDuration',str(GlobalVars.DPCount))
     parser.set('main','AmplitudeMatchDuration',str(GlobalVars.AMPCount))
-    parser.set('main','FFT_SIZE',str(GlobalVars.FFT));
 
     parser.set('main','DelayMin',str(GlobalVars.PreDelayMin))
     parser.set('main','DelayMax',str(GlobalVars.PreDelayMax))
@@ -171,32 +167,7 @@ def saveConfig(savefilename):
 
 def UpDateValues(ui):
     import GlobalVars
-    import serial
-    from PyQt5.QtWidgets import QMessageBox
-    from numpy import arange, array, zeros
-    import pyqtgraph as pg
-  #  try:
-    GlobalVars.ser=serial.Serial(str(GlobalVars.CurrentPort),9600)
-  #  except:
-    #    messageBox=QMessageBox()        
-     #   messageBox.setText("Couln't get FFT from Teensy")
-     #   messageBox.setFixedSize(500,200);
-     #   messageBox.show()
-      #  setAllButtons(ui,True);
-      #  ui.stopButton.setEnabled(False);
-      # ui.startButton.setEnabled(True);
-
-    GlobalVars.ser.flush();
-    GlobalVars.ser.write(str.encode('GET FFT_SIZE;'))
-
-    line=GlobalVars.ser.readline(GlobalVars.ser.inWaiting()).decode('ascii');
-    while (line[0:8]!='FFT_SIZE'):        
-        line=GlobalVars.ser.readline(GlobalVars.ser.inWaiting()).decode('ascii');    
-
-    line=line.lstrip("FFT_SIZE ") #get rid of it
-    line=line.strip('\r\n')
-    ui.NFFTcomboBox.setCurrentText(line)    
-    GlobalVars.FFT=int(line);
+    from numpy import arange
     
     ui.editMAXFF.setText((str(GlobalVars.MaxFF)))
     ui.editMINFF.setText((str(GlobalVars.MinFF)))
@@ -227,16 +198,12 @@ def UpDateValues(ui):
     ui.MagsfromTeensy.clear();
     ui.MagsfromTeensy.plot(GlobalVars.template,(arange(0,GlobalVars.sampleBin*128,GlobalVars.sampleBin))/1000)
     ui.Teensy_USB_ComboBox.setCurrentText(GlobalVars.AudioDeviceName);
-
-    GlobalVars.sampleBin=(GlobalVars.SamplingRate/2)/(GlobalVars.FFT/2);
-    GlobalVars.template=(zeros(GlobalVars.FFT//2));        
-    GlobalVars.templatepre=(zeros(GlobalVars.FFT//2));         
-    ui.pretemplateView.plot(GlobalVars.templatepre,arange(0,GlobalVars.sampleBin*(GlobalVars.FFT/2),GlobalVars.sampleBin)/1000,pen=pg.mkPen('r', width=1))
-    ui.MagsfromTeensy.plot(GlobalVars.template,(arange(0,GlobalVars.sampleBin*(GlobalVars.FFT/2),GlobalVars.sampleBin))/1000,pen=pg.mkPen('r', width=1))
+    
 
     if (GlobalVars.PreTemplateFlag):        
         ui.pretemplateView.clear();
         ui.pretemplateView.plot(GlobalVars.templatepre,(arange(0,GlobalVars.sampleBin*128,GlobalVars.sampleBin))/1000)
+
 
     index = ui.SampleRateComboBox.findText(str(GlobalVars.SamplingRate))
     ui.SampleRateComboBox.setCurrentIndex(index);    

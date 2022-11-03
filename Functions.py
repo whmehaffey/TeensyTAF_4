@@ -378,6 +378,11 @@ def TriggeredRecordAudio(ui,app):
             slid_win = deque(maxlen=SILENCE_LIMIT * rel)
             prev_audio = copy.copy(perm_win)
             
+            
+                
+                 
+
+
      print("done recording")
      
      stream.close()

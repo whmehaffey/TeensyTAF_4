@@ -135,11 +135,6 @@
       <string>1024</string>
      </property>
     </item>
-    <item>
-     <property name="text">
-      <string>512</string>
-     </property>
-    </item>
    </widget>
    <widget class="QComboBox" name="SampleRateComboBox">
     <property name="geometry">
@@ -413,8 +408,8 @@
      <rect>
       <x>540</x>
       <y>410</y>
-      <width>131</width>
-      <height>300</height>
+      <width>146</width>
+      <height>313</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -777,9 +772,9 @@
    <widget class="QSpinBox" name="AmpCountSpinBox">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>690</x>
       <y>440</y>
-      <width>46</width>
+      <width>49</width>
       <height>22</height>
      </rect>
     </property>
@@ -793,9 +788,9 @@
    <widget class="QSpinBox" name="DPCountSpinBox">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>690</x>
       <y>520</y>
-      <width>46</width>
+      <width>49</width>
       <height>22</height>
      </rect>
     </property>
@@ -809,9 +804,9 @@
    <widget class="QLabel" name="label_20">
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>700</x>
       <y>420</y>
-      <width>127</width>
+      <width>130</width>
       <height>16</height>
      </rect>
     </property>
@@ -822,9 +817,9 @@
    <widget class="QLabel" name="label_21">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>690</x>
       <y>500</y>
-      <width>127</width>
+      <width>130</width>
       <height>16</height>
      </rect>
     </property>
@@ -1135,7 +1130,7 @@
      <x>0</x>
      <y>0</y>
      <width>1449</width>
-     <height>17</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuConfig">

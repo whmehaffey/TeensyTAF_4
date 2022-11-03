@@ -89,6 +89,8 @@ void CalculateFFT() {
     //arm_shift_q15(magnitudes,8, magnitudes, FFT_SIZE);  // bit shift to correct for what happened during the FFT calculation 
     
     int32_Mags();    // calculate the magnitudes, no longer using the ARM for this in order to get higher resolution.  
+
+    
   //}
   
 }
@@ -109,9 +111,18 @@ float ScaleAndCompareToTemplate(float CurrTemplt[]) {
   scalefactor=1/scalefactor; // for vector multiplation below 
   arm_scale_f32(floatmags, scalefactor, scaledmags, TEMPLT_SIZE); // and normalize.  
 
-  scaledmags[0]=0; // Get rid of the first few 100-300 Hz depding n samp freq
-  scaledmags[1]=0;
-  scaledmags[2]=0;
+  if (FFT_SIZE==256){ // Get rid of Low F for normalization later
+      for (int i=0; i <3; i++) {
+        scaledmags[i]=0; 
+      }
+        
+    }
+  if (FFT_SIZE==1024) { // Get rid of Low F for normalization later
+      for (int i=0; i <8; i++) {
+        scaledmags[i]=0; 
+      }
+    }  
+
   
   arm_dot_prod_f32(scaledmags, CurrTemplt, TEMPLT_SIZE, &dotprod); // and calculate the dot product 
 
@@ -137,9 +148,19 @@ float ScaleAndCompareToTemplateMSE(float CurrTemplt[]) {
   scalefactor=1/scalefactor; // for vector multiplation below 
   arm_scale_f32(floatmags, scalefactor, scaledmags, TEMPLT_SIZE); // and normalize.  
 
-  scaledmags[0]=0; // Get rid of the first few 100-300 Hz depding n samp freq
-  scaledmags[1]=0;
-  scaledmags[2]=0;
+
+  if (FFT_SIZE==256){ // Get rid of Low F for normalization later
+      for (int i=0; i <3; i++) {
+        scaledmags[i]=0; 
+      }
+        
+    }
+  if (FFT_SIZE==1024) { // Get rid of Low F for normalization later
+      for (int i=0; i <8; i++) {
+        scaledmags[i]=0; 
+      }
+    }  
+
 
   arm_sub_f32(scaledmags, CurrTemplt, submags, TEMPLT_SIZE); //Subtract
   arm_power_f32(submags, TEMPLT_SIZE, &MSE); // sum of squares
@@ -229,16 +250,26 @@ void samplingStop() {
   samplingTimer.end();
 }
 
-
 void HanningWindowFFTBuffer() {
   
   int16_t *buf = (int16_t *)fftbuffer;
-  const int16_t *win = (int16_t *)AudioWindowHanning256;;
 
-  for (int i=0; i < 256; i=i+1) { // Every second one is true.... 
-    int32_t val = *buf * *win++;
-    *buf = val >> 15;
-    buf += 2;
+  if (FFT_SIZE==256) {
+    const int16_t *win = (int16_t *)AudioWindowHanning256;;
+
+    for (int i=0; i < 256; i=i+1) { // Every second one is true for samples for CFFT 
+      int32_t val = *buf * *win++;
+      *buf = val >> 15;
+      buf += 2;
+    }
+  }
+  if (FFT_SIZE==1024) {
+    const int16_t *win = (int16_t *)AudioWindowHanning1024;
+    for (int i=0; i < 1024; i=i+1) { // Every second one is true for samples for CFFT.... 
+      int32_t val = *buf * *win++;
+      *buf = val >> 15;
+      buf += 2;
+    }
   }
 }
 
@@ -364,10 +395,8 @@ float CalculateFF(int Average) {
 ////// Calculate Magnitudes, since the ARM is faster, but loses at least one bit of precision. 
 
 void int32_Mags() {
-
-  //  int imax = 0;
     
-    for (int i=0; i < 128; i++) {
+    for (int i=0; i < (FFT_SIZE/2); i++) {
       uint32_t tmp = *((uint32_t *)fftbuffer + i);        // real & imag
       uint32_t magsq = multiply_16tx16t_add_16bx16b(tmp, tmp);
       magnitudes[i]=sqrt_uint32(magsq);
